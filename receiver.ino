@@ -22,13 +22,13 @@ void setup_lora() {
   // Enquanto o serial estiver iniciado
   while (!Serial);
 
-  // printar a mensagem "lora receiver" no monitor serial
+  // imprime a mensagem "Receptor LoRa" no monitor serial
   // da arduino IDE
   Serial.println("Receptor LoRa")
 
   // Se a comunicação LoRa não for iniciada em 915Mhz,
   // frequência ajustável de operação do protocolo e 
-  // antenas. Imprime a mensagem de erro de falha de 
+  // antenas, imprime a mensagem de erro de falha de 
   // comunicação.
   if (!LoRa.begin(915E6)) {
     Serial.println("Inicialização da comunicação LoRa falhou!");
@@ -39,21 +39,23 @@ void setup_lora() {
 // Loop de leitura dos dados recebidos pelo protocolo LoRa
 void loop_leitura() {
 
-  // Tenta converter o pacote recebido via LoRa Connection
+  // Converte o pacote recebido via LoRa Connection
   int packetSize = LoRa.parsePacket();
+  // se a conversão for bem sucedida
   if (packetSize) {
-    // Printa a mensagem de pacote recebido
+
+    // Imprime no Monitor Serial da Arduino IDE a mensagem de pacote recebido
     Serial.print("Pacote Recebido '");
 
     // Faz a leitura do pacote
     while (LoRa.available()) {
-      // Imprime no Monitor Serial da Arduino IDE o pacote lido
+      // Imprime no Monitor Serial da Arduino IDE o conteúdo do pacote lido
       Serial.print((char)LoRa.read());
     }
 
     // Imprime no Monitor Serial da Arduino IDE o RSSI,
     // Indicador da força do sinal recebido pelo pacote,
-    // medido em dBm.
+    // medido em dBm e em números negativos.
     Serial.print("' com RSSI ");
     Serial.println(LoRa.packetRssi());
   }
