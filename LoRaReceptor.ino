@@ -11,8 +11,8 @@ comunicação LoRa. Configuração de pinagens das placas estão neste documento
 
 */
 
-// Configuração da inicialização da comunicação LoRa
-void setup_lora() {
+// Configuração da inicialização da comunicação LoRa Receptora
+void setup_lora_receptor() {
   // Inicia a porta serial na frequencia de 9600, para que seja
   // feita a leitura no monitor serial da arduino IDE:
   // Configurar a frequencia do monitor para a mesma frequência 
