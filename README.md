@@ -3,7 +3,7 @@ Repositório criado para a manutenção e gestão das principais bibliotecas LoR
 
 Nome  | Github
 ----- | -------
-Ana Beatriz | 
+Ana Beatriz | https://github.com/Anabaac
 Bruno Robim | https://github.com/BrunoRobim
-Kaique Fonseca  |
+Kaique Fonseca  |https://github.com/onezerus
 Luiz Humberto |
