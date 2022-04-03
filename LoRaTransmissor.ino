@@ -15,7 +15,7 @@ comunicação LoRa. Configuração de pinagens das placas estão neste documento
 int counter = 0;
 
 // Configuração da inicialização da comunicação LoRa Transmissora
-void setup_lora_transmissor()
+void setup()
 {
   // Inicia a porta serial na frequencia de 9600, para que seja
   // feita a leitura no monitor serial da arduino IDE:
@@ -44,7 +44,7 @@ void setup_lora_transmissor()
 }
 
 // Loop de envio dos dados pelo protocolo LoRa
-void loop_envio()
+void loop()
 {
   // Imprime no Monitor Serial da Arduino IDE 
   // a mensagem de envio "enviando pacote:"
