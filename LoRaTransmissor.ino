@@ -17,32 +17,62 @@ int counter = 0;
 // Configuração da inicialização da comunicação LoRa Transmissora
 void setup_lora_transmissor()
 {
+  // Inicia a porta serial na frequencia de 9600, para que seja
+  // feita a leitura no monitor serial da arduino IDE:
+  // Configurar a frequencia do monitor para a mesma frequência
+  // iniciada na porta serial
   Serial.begin(9600);
+
+  // Enquanto o serial estiver iniciado
   while (!Serial)
     ;
 
-  Serial.println("LoRa Sender");
+  // imprime a mensagem "Transmissor LoRa" no monitor serial
+  // da arduino IDE
+  Serial.println("Transmissor LoRa");
 
+  // Se a comunicação LoRa não for iniciada em 915Mhz,
+  // frequência ajustável de operação do protocolo e
+  // antenas, imprime a mensagem de erro de falha de
+  // comunicação.
   if (!LoRa.begin(915E6))
   {
-    Serial.println("Starting LoRa failed!");
+    Serial.println("Inicialização da comunicação LoRa falhou!");
     while (1)
       ;
   }
 }
 
-void loop()
+// Loop de envio dos dados pelo protocolo LoRa
+void loop_envio()
 {
-  Serial.print("Sending packet: ");
+  // Imprime no Monitor Serial da Arduino IDE 
+  // a mensagem de envio "enviando pacote:"
+  Serial.print("Enviando packet: ");
+
+  // Imprime no Monitor Serial da Arduino IDE
+  // o número do contador
   Serial.println(counter);
 
-  // send packet
+  // A partir daqui será preparado o pacote 
+  // a ser enviado pelo protocolo LoRa
+  // Inicia o pacote codificado
   LoRa.beginPacket();
-  LoRa.print("hello ");
+
+  // Imprime no Monitor Serial da Arduino IDE
+  // a mensagem "ola pacote"
+  LoRa.print("Ola pacote: ");
+
+  // Imprime no Monitor Serial da Arduino IDE
+  // a mensagem "ola pacote"
   LoRa.print(counter);
+
+  // Termina o pacote codificado
   LoRa.endPacket();
 
+  // Acresce +1 ao contador
   counter++;
 
+  // Delay de 5000ms
   delay(5000);
 }
