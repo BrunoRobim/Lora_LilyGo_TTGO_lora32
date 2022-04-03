@@ -48,7 +48,7 @@ void loop_envio()
 {
   // Imprime no Monitor Serial da Arduino IDE 
   // a mensagem de envio "enviando pacote:"
-  Serial.print("Enviando packet: ");
+  Serial.print("Enviando pacote: ");
 
   // Imprime no Monitor Serial da Arduino IDE
   // o número do contador

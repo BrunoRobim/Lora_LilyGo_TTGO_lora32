@@ -7,3 +7,7 @@ Ana Beatriz | https://github.com/Anabaac
 Bruno Robim | https://github.com/BrunoRobim
 Kaique Fonseca  |https://github.com/onezerus
 Luiz Humberto |
+
+
+## Encapsulando os Dados para Envio por Pacote
+Os pacotes são encapsulados de dados que serão enviados com o protocolo LoRa, para adicionar ou remover dados a este encapsulado, todo o dado desejado deve estar entre os métodos: ``` LoRa.beginPacket(); ``` e ``` LoRa.endPacket(); ```.
