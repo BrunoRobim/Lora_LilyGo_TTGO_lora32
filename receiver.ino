@@ -26,7 +26,9 @@ void setup_lora() {
   }
 }
 
-void loop() {
+// Loop de leitura dos dados recebidos pelo protocolo LoRa
+void loop_leitura() {
+
   // Tenrta converter o pacote recebido via LoRa Connection
   int packetSize = LoRa.parsePacket();
   if (packetSize) {
