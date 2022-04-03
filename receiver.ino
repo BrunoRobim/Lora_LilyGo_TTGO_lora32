@@ -1,8 +1,8 @@
 #include <SPI.h>
 #include <LoRa.h>
 
-
-void setup() {
+// Configuração da inicialização da comunicação LoRa
+void setup_lora() {
   // Inicia a porta serial na frequencia de 9600, para que seja
   // feita a leitura no monitor serial da arduino IDE:
   // Configurar a frequencia do monitor para a mesma frequência 
