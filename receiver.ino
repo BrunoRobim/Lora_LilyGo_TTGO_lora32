@@ -1,6 +1,16 @@
 #include <SPI.h>
 #include <LoRa.h>
 
+/*
+IMPORTS / INCLUDES
+__________
+SPI.h   = Interface Serial de Periféricos, permite a comunicação entre
+o microcontrolador e outros dipostivos via Serial Port (USB COM do computador)
+LoRa.h  = Biblioteca de configurações de firmware para o uso do protocolo de
+comunicação LoRa. Configuração de pinagens das placas estão neste documento.
+
+*/
+
 // Configuração da inicialização da comunicação LoRa
 void setup_lora() {
   // Inicia a porta serial na frequencia de 9600, para que seja
@@ -29,7 +39,7 @@ void setup_lora() {
 // Loop de leitura dos dados recebidos pelo protocolo LoRa
 void loop_leitura() {
 
-  // Tenrta converter o pacote recebido via LoRa Connection
+  // Tenta converter o pacote recebido via LoRa Connection
   int packetSize = LoRa.parsePacket();
   if (packetSize) {
     // Printa a mensagem de pacote recebido
