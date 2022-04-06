@@ -5,8 +5,8 @@ Nome  | Github
 ----- | -------
 Ana Beatriz | https://github.com/Anabaac
 Bruno Robim | https://github.com/BrunoRobim
-Kaique Fonseca  |https://github.com/onezerus
-Luiz Humberto |
+Kaique Fonseca | https://github.com/onezerus
+Luiz Humberto | https://github.com/llaurenti
 
 
 ## Encapsulando os Dados para Envio por Pacote
