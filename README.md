@@ -18,6 +18,10 @@ Os pacotes são encapsulados de dados que serão enviados com o protocolo LoRa, 
 - Instalar pelo ***gerenciador de bibliotecas*** as libs:
   - ```Adafruit_GFX``` **V1.10.14**
   - ```Adafruit_SSD1306``` **V2.5.7**
+  - ```MFRC522``` **V1.4.10**
 
 - As libs ```Wire.h``` e ```SPI.h``` comumente já acompanham a arduino IDE. Instalar manualmente se necessário.
-
+- Caso a Arduino IDE não reconhecer a instalação pelo gerenciador, fazer a importação manual:
+  - Ir até o diretório raiz do projeto. 
+  - Copiar a biblioteca inteira
+  - Colar no caminho: ```C:\Program Files (x86)\Arduino\libraries```
