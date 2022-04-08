@@ -8,7 +8,7 @@
 #include <Adafruit_SSD1306.h>
 
 // Bibliotecas para placa de RFID (RC522)
-#include <MFRC522>
+#include <MFRC522.h>
 
 /*
 IMPORTS / INCLUDES
@@ -34,12 +34,43 @@ int counter = 0;
 #define OLED_SCL 22
 #define OLED_RST 16
 
+// Define os pinos do RC522
+#define RFID_SDA 12 
+#define RFID_SCK 14 
+#define RFID_MOSI 21
+#define RFID_MISO 19
+#define RFID_RST 27
+
 // Define o tamanha do display em pixels
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 
 // Inicializa o display
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RST);
+
+// Variável para armazenar o UID da tag rfid
+String uidString;
+
+// Instancia a classe MFRC522, RFID
+MFRC522 mfrc522(RFID_SDA, RFID_RST);  
+
+// status para configuração SPI
+int current_spi = -1; // -1 - NOT STARTED   0 - RFID   1 - LORA
+
+// define o uso do SPI de acordo o status
+void spi_select(int which) {
+    if (which == current_spi) return;
+    SPI.end();
+    
+    switch(which) {
+        case 0:
+          SPI.begin(RFID_SCK, RFID_MISO, RFID_MOSI);
+          mfrc522.PCD_Init();   
+        break;
+    }
+    
+    current_spi = which;
+}
 
 // Configuração da inicialização da comunicação LoRa - Transmissor
 void setup()
