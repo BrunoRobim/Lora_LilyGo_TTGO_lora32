@@ -21,4 +21,3 @@ Os pacotes são encapsulados de dados que serão enviados com o protocolo LoRa, 
 
 - As libs ```Wire.h``` e ```SPI.h``` comumente já acompanham a arduino IDE. Instalar manualmente se necessário.
 
-
