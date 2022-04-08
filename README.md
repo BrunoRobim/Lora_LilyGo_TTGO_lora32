@@ -12,4 +12,5 @@ Luiz Humberto | https://github.com/llaurenti
 ## Encapsulando os Dados para Envio por Pacote
 Os pacotes são encapsulados de dados que serão enviados com o protocolo LoRa, para adicionar ou remover dados a este encapsulado, todo o dado desejado deve estar entre os métodos: ``` LoRa.beginPacket(); ``` e ``` LoRa.endPacket(); ```.
 
+## Ambiente
 A pasta LoRa é uma biblioteca que deve ser incluida em Libraries do Arduino.
