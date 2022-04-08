@@ -13,4 +13,12 @@ Luiz Humberto | https://github.com/llaurenti
 Os pacotes são encapsulados de dados que serão enviados com o protocolo LoRa, para adicionar ou remover dados a este encapsulado, todo o dado desejado deve estar entre os métodos: ``` LoRa.beginPacket(); ``` e ``` LoRa.endPacket(); ```.
 
 ## Ambiente
-A pasta LoRa é uma biblioteca que deve ser incluida em Libraries do Arduino.
+- LoRa é uma biblioteca que deve ser incluida em Libraries do Arduino.
+```C:\Program Files (x86)\Arduino\libraries```
+- Instalar pelo ***gerenciador de bibliotecas*** as libs:
+  - ```Adafruit_GFX``` **V1.10.14**
+  - ```Adafruit_SSD1306``` **V2.5.7**
+
+- As libs ```Wire.h``` e ```SPI.h``` comumente já acompanham a arduino IDE. Instalar manualmente se necessário.
+
+
