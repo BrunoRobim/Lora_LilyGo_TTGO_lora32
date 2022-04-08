@@ -60,7 +60,7 @@ void setup()
   Wire.begin(OLED_SDA, OLED_SCL);
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3c, false, false))
   { // Endereço 0x3C for 128x32
-    Serial.println(F("SSD1306 allocation failed"));
+    Serial.println(F("SSD1306 falha na alocação"));
     for (;;)
       ; // Se erro, não prossegue, loop infinito
   }
