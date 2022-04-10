@@ -175,7 +175,7 @@ void loop()
   // Imprime no Display OLED
   display.print("Contador:");
   // Posiciona o cursor em uma coordenada do display
-  display.setCursor(50, 30);
+  display.setCursor(60, 30);
   // Imprime no Display OLED
   display.print(counter);
   // Envia as informações do display para o hardware
