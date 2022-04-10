@@ -29,6 +29,14 @@ Adafruit_SSD1306.h  = Biblioteca para a geração gráfica no display
 // inicia um contador inteiro iguala a 0
 int counter = 0;
 
+// Define os pinos do LoRa
+#define LORA_SCK     5    
+#define LORA_MISO    19   
+#define LORA_MOSI    27 
+#define LORA_SS      18  
+#define LORA_RST     23   
+#define LORA_DI0     26 
+
 // Define os pinos do OLED
 #define OLED_SDA 21
 #define OLED_SCL 22
@@ -44,11 +52,13 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RST);
 // Configuração da inicialização da comunicação LoRa - Transmissor
 void setup()
 {
+  SPI.end();
   // Inicia a porta serial na frequencia de 9600, para que seja
   // feita a leitura no monitor serial da arduino IDE:
   // Configurar a frequencia do monitor para a mesma frequência
   // iniciada na porta serial
   Serial.begin(9600);
+  SPI.begin(LORA_SCK,LORA_MISO,LORA_MOSI,LORA_SS);
 
   // Reseta o display OLED via software
   pinMode(OLED_RST, OUTPUT);
@@ -64,8 +74,7 @@ void setup()
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3c, false, false))
   { // Endereço 0x3C for 128x32
     Serial.println(F("SSD1306 falha na alocação"));
-    for (;;)
-      ; // Se erro, não prossegue, loop infinito
+    for (;;); // Se erro, não prossegue, loop infinito
   }
 
   // Limpa o display
@@ -86,8 +95,7 @@ void setup()
   Serial.println("Transmissor LoRa Teste:");
 
   // Enquanto o serial estiver iniciado
-  while (!Serial)
-    ;
+  while (!Serial);
 
   // imprime a mensagem "Transmissor LoRa" no monitor serial
   // da arduino IDE
@@ -112,8 +120,7 @@ void setup()
     display.print("Inicializacao da comunicacao LoRa falhou!");
     // Envia as informações do display para o hardware
     display.display();
-    while (1)
-      ;
+    while (1);
   }
 
   // Posiciona o cursor em uma coordenada do display
