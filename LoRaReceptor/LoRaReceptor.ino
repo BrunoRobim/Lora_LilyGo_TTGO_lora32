@@ -160,6 +160,8 @@ void loop()
     display.setCursor(0, 30);
     // Imprime no Display OLED
     display.print(LoRaData);
+    display.setCursor(0, 40);
+    display.print(LoRa.packetRssi());
     // Envia as informações do display para o hardware
     display.display();
   }
