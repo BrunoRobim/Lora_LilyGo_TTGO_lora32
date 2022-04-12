@@ -8,7 +8,7 @@
 #include <Adafruit_SSD1306.h>
 
 // Bibliotecas para placa de RFID (RC522)
-//#include <MFRC522.h>
+#include <MFRC522.h>
 
 /*
 IMPORTS / INCLUDES
@@ -34,8 +34,17 @@ int counter = 0;
 #define LORA_MISO    19   
 #define LORA_MOSI    27 
 #define LORA_SS      18  
-#define LORA_RST     23   
+#define LORA_RST     14   
 #define LORA_DI0     26 
+
+
+// Define os pinos do RC522
+#define RFID_SDA 5 
+#define RFID_SCK 18 
+#define RFID_MOSI 23
+#define RFID_MISO 19
+#define RFID_RST 27
+
 
 // Define os pinos do OLED
 #define OLED_SDA 21
