@@ -8,7 +8,7 @@
 #include <Adafruit_SSD1306.h>
 
 // Bibliotecas para placa de RFID (RC522)
-#include <MFRC522.h>
+//#include <MFRC522.h>
 
 /*
 IMPORTS / INCLUDES
