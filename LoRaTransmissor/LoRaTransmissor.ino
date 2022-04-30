@@ -9,7 +9,6 @@
 
 // Bibliotecas para placa de RFID (RC522)
 #include <MFRC522.h>
-
 /*
 IMPORTS / INCLUDES
 __________
@@ -20,14 +19,9 @@ LoRa.h  = Biblioteca de configurações de firmware para o uso do protocolo de
 comunicação LoRa. Configuração de pinagens das placas estão neste documento.
 
 Wire.h  = IO para os pinos do display embutido
-
 Adafruit_GFX.h  = Biblioteca para  geração gráfica no display
-
 Adafruit_SSD1306.h  = Biblioteca para a geração gráfica no display
 */
-
-// inicia um contador inteiro iguala a 0
-int counter = 0;
 
 // Define os pinos do LoRa
 #define LORA_SCK     5    
@@ -37,14 +31,12 @@ int counter = 0;
 #define LORA_RST     14   
 #define LORA_DI0     26 
 
-
 // Define os pinos do RC522
 #define RFID_SDA 5 
 #define RFID_SCK 18 
 #define RFID_MOSI 23
 #define RFID_MISO 19
 #define RFID_RST 27
-
 
 // Define os pinos do OLED
 #define OLED_SDA 21
@@ -55,144 +47,95 @@ int counter = 0;
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 
-// Inicializa o display
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RST); 
+int packages_sent_count = 0;
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RST); // Inicializa o display
+MFRC522 mfrc522(RFID_SDA, RFID_RST);  // Create MFRC522 instance
+int current_spi = -1; // -1 - NOT STARTED   0 - RFID   1 - LORA
 
-// Configuração da inicialização da comunicação LoRa - Transmissor
-void setup()
-{
+void setup(){
   SPI.end();
   // Inicia a porta serial na frequencia de 9600, para que seja
   // feita a leitura no monitor serial da arduino IDE:
   // Configurar a frequencia do monitor para a mesma frequência
   // iniciada na porta serial
   Serial.begin(9600);
-  SPI.begin(LORA_SCK,LORA_MISO,LORA_MOSI,LORA_SS);
-
-  // Reseta o display OLED via software
-  pinMode(OLED_RST, OUTPUT);
-  // Configura a tensão para LOW
+  pinMode(OLED_RST, OUTPUT); // Reseta o display OLED via software
   digitalWrite(OLED_RST, LOW);
-  // Delay em ms
   delay(20);
-  // Configura a tensão para HIGH
   digitalWrite(OLED_RST, HIGH);
-
-  // Inicializa o OLED
   Wire.begin(OLED_SDA, OLED_SCL);
-  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3c, false, false))
-  { // Endereço 0x3C for 128x32
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3c, false, false)) {
+    // Endereço 0x3C for 128x32
     Serial.println(F("SSD1306 falha na alocação"));
     for (;;); // Se erro, não prossegue, loop infinito
   }
 
-  // Limpa o display
   display.clearDisplay();
-  // Define a cor do texto
   display.setTextColor(WHITE);
-  // Define o tamanho do texto
   display.setTextSize(1);
-  // Define a posição zero do cursor
   display.setCursor(0, 0);
-  // Imprime no Display OLED 
   display.print("Transmissor LoRa");
   // Envia as informações do display para o hardware
   display.display();
 
-  // Imprime no Monitor Serial da Arduino IDE
-  // uma mensagem de teste
   Serial.println("Transmissor LoRa Teste:");
-
-  // Enquanto o serial estiver iniciado
   while (!Serial);
-
-  // imprime a mensagem "Transmissor LoRa" no monitor serial
-  // da arduino IDE
   Serial.println("Transmissor LoRa");
-
   // Se a comunicação LoRa não for iniciada em 915Mhz,
   // frequência ajustável de operação do protocolo e
   // antenas, imprime a mensagem de erro de falha de
   // comunicação.
-  if (!LoRa.begin(915E6))
-  {
+  select_spi(1);
+  if (!LoRa.begin(915E6)) {
     Serial.println("Inicialização da comunicação LoRa falhou!");
-    // Limpa o display
     display.clearDisplay();
-    // Define a cor do texto
     display.setTextColor(WHITE);
-    // Define o tamanho do texto
     display.setTextSize(1);
-    // Define a posição zero do cursor
     display.setCursor(0, 0);
-    // Imprime no Display OLED 
     display.print("Inicializacao da comunicacao LoRa falhou!");
-    // Envia as informações do display para o hardware
     display.display();
     while (1);
   }
-
-  // Posiciona o cursor em uma coordenada do display
   display.setCursor(0, 10);
-  // Imprime no Display OLED
   display.print("Inicialização LoRa OK!");
-  // Envia as informações do display para o hardware
   display.display();
 }
 
-// Loop de envio dos dados pelo protocolo LoRa
-void loop()
-{
-  // Imprime no Monitor Serial da Arduino IDE
-  // a mensagem de envio "enviando pacote:"
+void loop() {
   Serial.print("Enviando pacote: ");
-
-  // Imprime no Monitor Serial da Arduino IDE
-  // o número do contador
-  Serial.println(counter);
-
-  // A partir daqui será preparado o pacote
-  // a ser enviado pelo protocolo LoRa
-  // Inicia o pacote codificado
+  Serial.println(packages_sent_count);
   LoRa.beginPacket();
-
-  // Imprime no Monitor Serial da Arduino IDE
-  // a mensagem "ola pacote"
   LoRa.print("Ola pacote: ");
-
-  // Imprime no Monitor Serial da Arduino IDE
-  // a mensagem "ola pacote"
-  LoRa.print(counter);
-
-  // Termina o pacote codificado
-  LoRa.endPacket();
-
-  // Limpa o display
-  display.clearDisplay();
-  // Define a posição zero do cursor
-  display.setCursor(0, 0);
-  // Imprime no Display OLED
+  LoRa.print(packages_sent_count);
+  LoRa.endPacket(); // Termina o pacote codificado
+  display.clearDisplay(); // Limpa o display
+  display.setCursor(0, 0); // Define a posição zero do cursor
   display.println("Transmissor LoRa");
-  // Posiciona o cursor em uma coordenada do display
   display.setCursor(0, 20);
-  // Define o tamanho do texto
   display.setTextSize(1);
-  // Imprime no Display OLED
   display.print("Pacote LoRa enviado.");
-  // Posiciona o cursor em uma coordenada do display
   display.setCursor(0, 30);
-  // Imprime no Display OLED
   display.print("Contador:");
-  // Posiciona o cursor em uma coordenada do display
   display.setCursor(60, 30);
-  // Imprime no Display OLED
-  display.print(counter);
+  display.print(packages_sent_count);
   // Envia as informações do display para o hardware
   display.display();
-
-  // Acresce +1 ao contador
-  counter++;
-
-  // Delay em ms
+  packages_sent_count++;
   delay(1000);
+}
+
+void select_spi(int desired_spi) {
+     if (desired_spi == current_spi) return;
+     SPI.end();
+     switch(desired_spi) {
+        case 0:
+          SPI.begin(RFID_SCK, RFID_MISO, RFID_MOSI);
+          mfrc522.PCD_Init();   
+        break;
+        case 1:
+          SPI.begin(LORA_SCK,LORA_MISO,LORA_MOSI,LORA_SS);
+          LoRa.setPins(LORA_SS,LORA_RST,LORA_DI0);
+        break;
+     }
+     current_spi = desired_spi;
 }
