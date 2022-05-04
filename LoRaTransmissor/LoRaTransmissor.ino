@@ -74,13 +74,13 @@ void setup()
   display.print("Transmissor LoRa");
   display.display(); // Envia as informações do display para o hardware
   Serial.println("Transmissor LoRa Teste:");
-  while (!Serial)
-    ;
-  Serial.println("Transmissor LoRa");
+  while (!Serial);
+  Serial.println("Transmissor LoRa!!");
   // Se a comunicação LoRa não for iniciada em 915Mhz,
   // frequência ajustável de operação do protocolo e
   // antenas, imprime a mensagem de erro de falha de
   // comunicação.
+  
 }
 
 bool rfid_check()
@@ -139,19 +139,19 @@ void lora_send()
   display.setCursor(0, 10);
   display.print("Inicializacao LoRa OK!");
   display.display();
-  printPackage();
   packages_sent_count++;
   LoRa.beginPacket();
   LoRa.print("Ola pacote: ");
   LoRa.print(packages_sent_count);
   LoRa.endPacket(); // Termina o pacote codificado
+  printPackage();
 }
 
 void printPackage()
 {
   display.clearDisplay();  // Limpa o display
   display.setCursor(0, 0); // Define a posição zero do cursor
-  display.println("Transmissor LoRa");
+  display.println("Transmissor LoRa!");
   display.setCursor(0, 20);
   display.setTextSize(1);
   display.print("Pacote LoRa enviado.");
