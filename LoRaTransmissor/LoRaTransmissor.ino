@@ -78,6 +78,10 @@ void setup()
   // Configura a tensão para HIGH
   digitalWrite(OLED_RST, HIGH);
 
+  display.setTextColor(WHITE);
+  display.setTextSize(1);
+  while (!Serial);
+
   // Inicializa o OLED
   Wire.begin(OLED_SDA, OLED_SCL);
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3c, false, false))
@@ -86,34 +90,6 @@ void setup()
     for (;;); // Se erro, não prossegue, loop infinito
   }
 
-  // Limpa o display
-  display.clearDisplay();
-  // Define a cor do texto
-  display.setTextColor(WHITE);
-  // Define o tamanho do texto
-  display.setTextSize(1);
-  // Define a posição zero do cursor
-  display.setCursor(0, 0);
-  // Imprime no Display OLED 
-  display.print("Transmissor LoRa");
-  // Envia as informações do display para o hardware
-  display.display();
-
-  // Imprime no Monitor Serial da Arduino IDE
-  // uma mensagem de teste
-  Serial.println("Transmissor LoRa Teste:");
-
-  // Enquanto o serial estiver iniciado
-  while (!Serial);
-
-  // imprime a mensagem "Transmissor LoRa" no monitor serial
-  // da arduino IDE
-  Serial.println("Transmissor LoRa");
-
-  // Se a comunicação LoRa não for iniciada em 915Mhz,
-  // frequência ajustável de operação do protocolo e
-  // antenas, imprime a mensagem de erro de falha de
-  // comunicação.
   if (!LoRa.begin(915E6))
   {
     Serial.println("Inicialização da comunicação LoRa falhou!");
@@ -129,28 +105,12 @@ void setup()
     display.print("Inicializacao da comunicacao LoRa falhou!");
     // Envia as informações do display para o hardware
     display.display();
-    while (1);
+    for(;;);
   }
-
-  // Posiciona o cursor em uma coordenada do display
-  display.setCursor(0, 10);
-  // Imprime no Display OLED
-  display.print("Inicialização LoRa OK!");
-  // Envia as informações do display para o hardware
-  display.display();
 }
 
-// Loop de envio dos dados pelo protocolo LoRa
-void loop()
-{
-  // Imprime no Monitor Serial da Arduino IDE
-  // a mensagem de envio "enviando pacote:"
-  Serial.print("Enviando pacote: ");
-
-  // Imprime no Monitor Serial da Arduino IDE
-  // o número do contador
-  Serial.println(counter);
-
+void use_lora(){
+  
   // A partir daqui será preparado o pacote
   // a ser enviado pelo protocolo LoRa
   // Inicia o pacote codificado
@@ -166,6 +126,21 @@ void loop()
 
   // Termina o pacote codificado
   LoRa.endPacket();
+}
+
+// Loop de envio dos dados pelo protocolo LoRa
+void loop()
+{
+  use_lora();
+  Serial.println("Transmissor LoRa");
+  // Imprime no Monitor Serial da Arduino IDE
+  // a mensagem de envio "enviando pacote:"
+  Serial.print("Enviando pacote: ");
+
+  // Imprime no Monitor Serial da Arduino IDE
+  // o número do contador
+  Serial.println(counter);
+
 
   // Limpa o display
   display.clearDisplay();
