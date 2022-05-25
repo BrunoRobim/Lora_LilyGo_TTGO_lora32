@@ -176,6 +176,8 @@ void loop()
   }
 
   if (teste == 1){
+    semaforo(HIGH,LOW,LOW);
+    delay(3000);
     semaforo(LOW,HIGH,LOW);
     delay(5000);
     semaforo(LOW,LOW,HIGH);
