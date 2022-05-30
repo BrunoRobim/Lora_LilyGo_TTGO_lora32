@@ -107,7 +107,6 @@ void loop()
   else
   {
     Serial.write('A');
-    Serial.println(Serial.read()); // printa o valor escrito pelo write - teste
     Serial.println(F("Card read previously."));
   }
 
