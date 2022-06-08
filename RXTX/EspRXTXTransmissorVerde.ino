@@ -72,8 +72,8 @@ void loop()
         Serial.println(c);
         if (c == 'A')
         {
-            digitalWrite(led, HIGH);
             use_lora();
+            digitalWrite(led, HIGH);
             Serial.println("Pós função");
             delay(2000);
             digitalWrite(led, LOW);
