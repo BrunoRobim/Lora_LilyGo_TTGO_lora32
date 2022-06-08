@@ -92,7 +92,7 @@ void setup()
 
   if (!LoRa.begin(915E6))
   {
-    Serial.println("Inicialização da comunicação LoRa falhou!");
+    Serial.println("Inicializacao da comunicação LoRa falhou!");
     // Limpa o display
     display.clearDisplay();
     // Define a cor do texto
