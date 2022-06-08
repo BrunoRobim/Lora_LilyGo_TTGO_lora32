@@ -85,7 +85,7 @@ void setup()
   // Define a posição zero do cursor
   display.setCursor(0, 0);
   // Imprime no Display OLED
-  display.print("Transmissor LoRa1");
+  display.print("Receptor LoRa");
   // Envia as informações do display para o hardware
   display.display();
 
