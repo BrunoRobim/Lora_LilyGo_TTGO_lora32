@@ -32,6 +32,16 @@ String LoRaData; // Conteúdo para o pacote a ser encapsulado
 
 int teste = 0;
 
+//Função de controle dos leds, para prover reutilização
+void semaforo(char red, char yellow, char green){
+  //LED Vermelho
+  digitalWrite(13, red);
+  //LED amarelo
+  digitalWrite(12, yellow);
+  //LED verde
+  digitalWrite(14, green);
+}
+
 
 // Preparação do Arduino, este código irá rodar uma única vez
 void setup() 
@@ -75,7 +85,7 @@ void setup()
   // Define a posição zero do cursor
   display.setCursor(0, 0);
   // Imprime no Display OLED
-  display.print("Transmissor LoRa");
+  display.print("Receptor LoRa");
   // Envia as informações do display para o hardware
   display.display();
 
@@ -108,17 +118,9 @@ void setup()
   display.print("Inicialização LoRa OK!");
   // Envia as informações do display para o hardware
   display.display();
+  semaforo(HIGH,LOW,LOW);
 }
 
-//Função de controle dos leds, para prover reutilização
-void semaforo(char red, char yellow, char green){
-  //LED Vermelho
-  digitalWrite(13, red);
-  //LED amarelo
-  digitalWrite(12, yellow);
-  //LED verde
-  digitalWrite(14, green);
-}
 
 // Este código é chamado automáticamente pelo Arduino, ficará em
 // loop até que seu Arduino seja desligado
@@ -139,6 +141,21 @@ void loop()
     {
       LoRaData = LoRa.readString();
       Serial.print(LoRaData);
+      
+      if (LoRaData == "COMANDO::VERDE"){
+        semaforo(LOW,HIGH,LOW);
+        delay(3000);
+        semaforo(LOW,LOW,HIGH);
+        delay(5000);
+      }
+
+      if (LoRaData == "COMANDO::VERMELHO"){
+        semaforo(LOW,HIGH,LOW);
+        delay(1500);
+        semaforo(HIGH,LOW,LOW);
+        delay(5000);
+      }
+
     }
 
     // Imprime no Monitor Serial da Arduino IDE o RSSI,
@@ -167,20 +184,5 @@ void loop()
     display.print(LoRa.packetRssi());
     // Envia as informações do display para o hardware
     display.display();
-  }
-  
-  while(teste != 1){
-    semaforo(HIGH,LOW,LOW);
-    delay(5000);
-    teste = 1;
-  }
-
-  if (teste == 1){
-    semaforo(HIGH,LOW,LOW);
-    delay(3000);
-    semaforo(LOW,HIGH,LOW);
-    delay(5000);
-    semaforo(LOW,LOW,HIGH);
-    delay(10000);
   }
 }
